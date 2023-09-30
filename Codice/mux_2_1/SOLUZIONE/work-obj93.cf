@@ -1,0 +1,10 @@
+v 3
+file . "mux_2_1_tb.vhd" "20230928074610.000" "20230928094757.410":
+  entity mux_2_1_tb at 1( 0) + 0 on 16;
+  architecture mux2_1 of mux_2_1_tb at 8( 96) + 0 on 17;
+file . "mux_2_1.vhd" "20230928074606.000" "20230928094712.249":
+  entity mux_2_1 at 1( 0) + 0 on 11;
+  architecture dataflow_v1 of mux_2_1 at 30( 916) + 0 on 12;
+  architecture dataflow_v2 of mux_2_1 at 44( 1328) + 0 on 13;
+  architecture behavioral of mux_2_1 at 55( 1523) + 0 on 14;
+  architecture dataflow of mux_2_1 at 70( 1891) + 0 on 15;

@@ -1,0 +1,4 @@
+v 3
+file . "mux_2_1.vhd" "20230930085652.000" "20230930105655.421":
+  entity mux_2_1 at 1( 0) + 0 on 11;
+  architecture ooo of mux_2_1 at 17( 237) + 0 on 12;
