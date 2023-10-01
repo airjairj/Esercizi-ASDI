@@ -1,4 +1,22 @@
 v 3
-file . "mux_16_1.vhd" "20230930104144.000" "20230930130228.366":
-  entity mux_16_1 at 1( 0) + 0 on 15;
-  architecture ooo of mux_16_1 at 31( 830) + 0 on 16;
+file . "mux_4_1_tb.vhd" "20230930112422.000" "20231001181147.750":
+  entity mux_4_1_tb at 1( 0) + 0 on 87;
+  architecture structural of mux_4_1_tb at 9( 105) + 0 on 88;
+file . "mux_2_1_tb.vhd" "20230930112422.000" "20231001180744.190":
+  entity mux_2_1_tb at 1( 0) + 0 on 67;
+  architecture mux2_1 of mux_2_1_tb at 8( 103) + 0 on 68;
+file . "mux_16_1_tb.vhd" "20231001161932.000" "20231001181940.355":
+  entity mux_16_1_tb at 1( 0) + 0 on 103;
+  architecture oooo of mux_16_1_tb at 7( 90) + 0 on 104;
+file . "mux_16_1.vhd" "20231001161142.000" "20231001181937.715":
+  entity mux_16_1 at 1( 0) + 0 on 101;
+  architecture ooo of mux_16_1 at 31( 835) + 0 on 102;
+file . "mux_2_1.vhd" "20230930112422.000" "20231001180741.275":
+  entity mux_2_1 at 1( 0) + 0 on 62;
+  architecture dataflow_v1 of mux_2_1 at 30( 916) + 0 on 63;
+  architecture dataflow_v2 of mux_2_1 at 44( 1328) + 0 on 64;
+  architecture behavioral of mux_2_1 at 55( 1523) + 0 on 65;
+  architecture dataflow of mux_2_1 at 70( 1891) + 0 on 66;
+file . "mux_4_1.vhd" "20230930112422.000" "20231001181145.300":
+  entity mux_4_1 at 1( 0) + 0 on 85;
+  architecture structural of mux_4_1 at 17( 390) + 0 on 86;

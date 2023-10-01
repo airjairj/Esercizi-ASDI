@@ -8,27 +8,27 @@ architecture OOOO of mux_16_1_tb is
 
     component mux_16_1 is
         port(
-            b0 : in STD_LOGIC;
-            b1 : in STD_LOGIC;
-            b2 : in STD_LOGIC;
-            b3 : in STD_LOGIC;
-            b4 : in STD_LOGIC;
-            b5 : in STD_LOGIC;
-            b6 : in STD_LOGIC;
-            b7 : in STD_LOGIC;
-            b8 : in STD_LOGIC;
-            b9 : in STD_LOGIC;
-            b10 : in STD_LOGIC;
-            b11 : in STD_LOGIC;
-            b12 : in STD_LOGIC;
-            b13 : in STD_LOGIC;
-            b14 : in STD_LOGIC;
-            b15 : in STD_LOGIC;
-            s0 : in STD_LOGIC;
-            s1 : in STD_LOGIC;
-            s2 : in STD_LOGIC;
-            s3 : in STD_LOGIC;
-            y0 : out STD_LOGIC
+            c0 : in STD_LOGIC;
+            c1 : in STD_LOGIC;
+            c2 : in STD_LOGIC;
+            c3 : in STD_LOGIC;
+            c4 : in STD_LOGIC;
+            c5 : in STD_LOGIC;
+            c6 : in STD_LOGIC;
+            c7 : in STD_LOGIC;
+            c8 : in STD_LOGIC;
+            c9 : in STD_LOGIC;
+            c10 : in STD_LOGIC;
+            c11 : in STD_LOGIC;
+            c12 : in STD_LOGIC;
+            c13 : in STD_LOGIC;
+            c14 : in STD_LOGIC;
+            c15 : in STD_LOGIC;
+            s00 : in STD_LOGIC;
+            s11 : in STD_LOGIC;
+            s22 : in STD_LOGIC;
+            s33 : in STD_LOGIC;
+            y00 : out STD_LOGIC
         );
     end component;
 
@@ -39,27 +39,27 @@ architecture OOOO of mux_16_1_tb is
 begin
 
     utt: mux_16_1 port map (
-        b0 => input(0),
-        b1 => input(1),
-        b2 => input(2),
-        b3 => input(3),
-        b4 => input(4),
-        b5 => input(5),
-        b6 => input(6),
-        b7 => input(7),
-        b8 => input(8),
-        b9 => input(9),
-        b10 => input(10),
-        b11 => input(11),
-        b12 => input(12),
-        b13 => input(13),
-        b14 => input(14),
-        b15 => input(15),
-        s0 => control(0),
-        s1 => control(1),
-        s2 => control(2),
-        s3 => control(3),
-        y0 => output
+        c0 => input(0),
+        c1 => input(1),
+        c2 => input(2),
+        c3 => input(3),
+        c4 => input(4),
+        c5 => input(5),
+        c6 => input(6),
+        c7 => input(7),
+        c8 => input(8),
+        c9 => input(9),
+        c10 => input(10),
+        c11 => input(11),
+        c12 => input(12),
+        c13 => input(13),
+        c14 => input(14),
+        c15 => input(15),
+        s00 => control(0),
+        s11 => control(1),
+        s22 => control(2),
+        s33 => control(3),
+        y00 => output
     );
 
     stim_proc: process begin
@@ -68,16 +68,17 @@ begin
         -- input = b0 b1 b2 b3 ... b15
         -- control = s3 s2 s1 s0
 
-        input    <= "0100000000000000";
+        input    <= "0100000000000000"; -- 4000
 
-        control <= "0001";
+        control <= "0001"; -- ESCE IN HEX
         wait for 10 ns;
 
-        control <= "1110";
+        control <= "1010"; -- ESCE IN HEX
+        input    <= "0000000000100000"; -- 4000
         wait for 10 ns;
 
-        assert output = '0'
-            report "error"
+        assert output = '1'
+            report "errore NON TI TROVI 1"
             severity failure;
 
         wait;

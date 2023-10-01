@@ -3,27 +3,27 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Definizione dell'interfaccia del modulo mux_16_1.
 entity mux_16_1 is 
-	port(	b0 : in STD_LOGIC;
-			b1 : in STD_LOGIC;
-			b2 : in STD_LOGIC;
-			b3 : in STD_LOGIC;
-            b4 : in STD_LOGIC;
-            b5 : in STD_LOGIC;
-            b6 : in STD_LOGIC;
-            b7 : in STD_LOGIC;
-            b8 : in STD_LOGIC;
-            b9 : in STD_LOGIC;
-            b10 : in STD_LOGIC;
-            b11 : in STD_LOGIC;
-            b12 : in STD_LOGIC;
-            b13 : in STD_LOGIC;
-            b14 : in STD_LOGIC;
-            b15 : in STD_LOGIC;
-			s0 : in STD_LOGIC;
-			s1 : in STD_LOGIC;
-			s2 : in STD_LOGIC;
-			s3 : in STD_LOGIC;
-			y0 : out STD_LOGIC
+	port(	c0 : in STD_LOGIC;
+			c1 : in STD_LOGIC;
+			c2 : in STD_LOGIC;
+			c3 : in STD_LOGIC;
+            c4 : in STD_LOGIC;
+            c5 : in STD_LOGIC;
+            c6 : in STD_LOGIC;
+            c7 : in STD_LOGIC;
+            c8 : in STD_LOGIC;
+            c9 : in STD_LOGIC;
+            c10 : in STD_LOGIC;
+            c11 : in STD_LOGIC;
+            c12 : in STD_LOGIC;
+            c13 : in STD_LOGIC;
+            c14 : in STD_LOGIC;
+            c15 : in STD_LOGIC;
+			s00 : in STD_LOGIC;
+			s11 : in STD_LOGIC;
+			s22 : in STD_LOGIC;
+			s33 : in STD_LOGIC;
+			y00 : out STD_LOGIC
 		);		
 end mux_16_1;
 
@@ -35,66 +35,66 @@ architecture OOO of mux_16_1 is
 	signal u3 : STD_LOGIC := '0';
 
 	component mux_4_1
-		port(	a0 	: in STD_LOGIC;
-				a1 	: in STD_LOGIC;
-				a2 	: in STD_LOGIC;
-				a3 	: in STD_LOGIC;
+		port(	b0 	: in STD_LOGIC;
+				b1 	: in STD_LOGIC;
+				b2 	: in STD_LOGIC;
+				b3 	: in STD_LOGIC;
 				s0 	: in STD_LOGIC;
 				s1 	: in STD_LOGIC;
-				y 	: out STD_LOGIC
+				y0 	: out STD_LOGIC
 			);	
 	end component;
 
 	begin
 		mux0: mux_4_1 
 			Port map(	
-                        a0 	=> b0,
-						a1 	=> b1,
-						a2 	=> b2,
-						a3 	=> b3,
-						s0 	=> s1,
-						s1 	=> s0,
-						y 	=> u0
+                        b0 	=> c0,
+						b1 	=> c1,
+						b2 	=> c2,
+						b3 	=> c3,
+						s0 	=> s00,
+						s1 	=> s11,
+						y0 	=> u0
 					);
 		mux1: mux_4_1
             Port map(
-                        a0 	=> b4,
-                        a1 	=> b5,
-                        a2 	=> b6,
-                        a3 	=> b7,
-                        s0 	=> s1,
-                        s1 	=> s0,
-                        y 	=> u1
+                        b0 	=> c4,
+                        b1 	=> c5,
+                        b2 	=> c6,
+                        b3 	=> c7,
+                        s0 	=> s00,
+                        s1 	=> s11,
+                        y0 	=> u1
                     );
         mux2: mux_4_1
             Port map(
-                        a0 	=> b8,
-                        a1 	=> b9,
-                        a2 	=> b10,
-                        a3 	=> b11,
-                        s0 	=> s1,
-                        s1 	=> s0,
-                        y 	=> u2
+                        b0 	=> c8,
+                        b1 	=> c9,
+                        b2 	=> c10,
+                        b3 	=> c11,
+                        s0 	=> s00,
+                        s1 	=> s11,
+                        y0 	=> u2
                     );
         mux3: mux_4_1
             Port map(
-                        a0 	=> b12,
-                        a1 	=> b13,
-                        a2 	=> b14,
-                        a3 	=> b15,
-                        s0 	=> s1,
-                        s1 	=> s0,
-                        y 	=> u3
+                        b0 	=> c12,
+                        b1 	=> c13,
+                        b2 	=> c14,
+                        b3 	=> c15,
+                        s0 	=> s00,
+                        s1 	=> s11,
+                        y0 	=> u3
                     );
         mux4: mux_4_1
             Port map(
-                        a0 	=> u0,
-                        a1 	=> u1,
-                        a2 	=> u2,
-                        a3 	=> u3,
-                        s0 	=> s3,
-                        s1 	=> s2,
-                        y 	=> y0
+                        b0 	=> u0,
+                        b1 	=> u1,
+                        b2 	=> u2,
+                        b3 	=> u3,
+                        s0 	=> s22,
+                        s1 	=> s33,
+                        y0 	=> y00
                     );
 
 end OOO;
