@@ -1,0 +1,10 @@
+v 3
+file . "decoder_2_4_tb.vhd" "20231003105040.000" "20231003125249.281":
+  entity decoder_2_4_tb at 5( 138) + 0 on 16;
+  architecture bench of decoder_2_4_tb at 12( 221) + 0 on 17;
+file . "decoder_2_4.vhd" "20231003105036.000" "20231003125242.516":
+  entity decoder_2_4 at 1( 0) + 0 on 11;
+  architecture dataflow of decoder_2_4 at 14( 194) + 0 on 12;
+  architecture dataflow_v1 of decoder_2_4 at 25( 386) + 0 on 13;
+  architecture dataflow_v2 of decoder_2_4 at 36( 632) + 0 on 14;
+  architecture behavioral of decoder_2_4 at 53( 886) + 0 on 15;
