@@ -1,5 +1,5 @@
 $date
-  Wed Oct 04 12:28:55 2023
+  Thu Oct 05 10:06:08 2023
 $end
 $version
   GHDL v0
@@ -7,3 +7,399 @@ $end
 $timescale
   1 fs
 $end
+$var reg 16 ! input[0:15] $end
+$var reg 6 " control[5:0] $end
+$var reg 4 # output[0:3] $end
+$scope module utt $end
+$var reg 1 $ e0 $end
+$var reg 1 % e1 $end
+$var reg 1 & e2 $end
+$var reg 1 ' e3 $end
+$var reg 1 ( e4 $end
+$var reg 1 ) e5 $end
+$var reg 1 * e6 $end
+$var reg 1 + e7 $end
+$var reg 1 , e8 $end
+$var reg 1 - e9 $end
+$var reg 1 . e10 $end
+$var reg 1 / e11 $end
+$var reg 1 0 e12 $end
+$var reg 1 1 e13 $end
+$var reg 1 2 e14 $end
+$var reg 1 3 e15 $end
+$var reg 1 4 s0000 $end
+$var reg 1 5 s1111 $end
+$var reg 1 6 s2222 $end
+$var reg 1 7 s3333 $end
+$var reg 1 8 s4444 $end
+$var reg 1 9 s5555 $end
+$var reg 1 : y0000 $end
+$var reg 1 ; y1111 $end
+$var reg 1 < y2222 $end
+$var reg 1 = y3333 $end
+$var reg 1 > u5 $end
+$scope module mux16to1 $end
+$var reg 1 ? c0 $end
+$var reg 1 @ c1 $end
+$var reg 1 A c2 $end
+$var reg 1 B c3 $end
+$var reg 1 C c4 $end
+$var reg 1 D c5 $end
+$var reg 1 E c6 $end
+$var reg 1 F c7 $end
+$var reg 1 G c8 $end
+$var reg 1 H c9 $end
+$var reg 1 I c10 $end
+$var reg 1 J c11 $end
+$var reg 1 K c12 $end
+$var reg 1 L c13 $end
+$var reg 1 M c14 $end
+$var reg 1 N c15 $end
+$var reg 1 O s00 $end
+$var reg 1 P s11 $end
+$var reg 1 Q s22 $end
+$var reg 1 R s33 $end
+$var reg 1 S y00 $end
+$var reg 1 T u0 $end
+$var reg 1 U u1 $end
+$var reg 1 V u2 $end
+$var reg 1 W u3 $end
+$scope module mux0 $end
+$var reg 1 X b0 $end
+$var reg 1 Y b1 $end
+$var reg 1 Z b2 $end
+$var reg 1 [ b3 $end
+$var reg 1 \ s0 $end
+$var reg 1 ] s1 $end
+$var reg 1 ^ y0 $end
+$var reg 1 _ u0 $end
+$var reg 1 ` u1 $end
+$scope module mux0 $end
+$var reg 1 a a0 $end
+$var reg 1 b a1 $end
+$var reg 1 c s $end
+$var reg 1 d y $end
+$upscope $end
+$scope module mux1 $end
+$var reg 1 e a0 $end
+$var reg 1 f a1 $end
+$var reg 1 g s $end
+$var reg 1 h y $end
+$upscope $end
+$scope module mux2 $end
+$var reg 1 i a0 $end
+$var reg 1 j a1 $end
+$var reg 1 k s $end
+$var reg 1 l y $end
+$upscope $end
+$upscope $end
+$scope module mux1 $end
+$var reg 1 m b0 $end
+$var reg 1 n b1 $end
+$var reg 1 o b2 $end
+$var reg 1 p b3 $end
+$var reg 1 q s0 $end
+$var reg 1 r s1 $end
+$var reg 1 s y0 $end
+$var reg 1 t u0 $end
+$var reg 1 u u1 $end
+$scope module mux0 $end
+$var reg 1 v a0 $end
+$var reg 1 w a1 $end
+$var reg 1 x s $end
+$var reg 1 y y $end
+$upscope $end
+$scope module mux1 $end
+$var reg 1 z a0 $end
+$var reg 1 { a1 $end
+$var reg 1 | s $end
+$var reg 1 } y $end
+$upscope $end
+$scope module mux2 $end
+$var reg 1 !" a0 $end
+$var reg 1 "" a1 $end
+$var reg 1 #" s $end
+$var reg 1 $" y $end
+$upscope $end
+$upscope $end
+$scope module mux2 $end
+$var reg 1 %" b0 $end
+$var reg 1 &" b1 $end
+$var reg 1 '" b2 $end
+$var reg 1 (" b3 $end
+$var reg 1 )" s0 $end
+$var reg 1 *" s1 $end
+$var reg 1 +" y0 $end
+$var reg 1 ," u0 $end
+$var reg 1 -" u1 $end
+$scope module mux0 $end
+$var reg 1 ." a0 $end
+$var reg 1 /" a1 $end
+$var reg 1 0" s $end
+$var reg 1 1" y $end
+$upscope $end
+$scope module mux1 $end
+$var reg 1 2" a0 $end
+$var reg 1 3" a1 $end
+$var reg 1 4" s $end
+$var reg 1 5" y $end
+$upscope $end
+$scope module mux2 $end
+$var reg 1 6" a0 $end
+$var reg 1 7" a1 $end
+$var reg 1 8" s $end
+$var reg 1 9" y $end
+$upscope $end
+$upscope $end
+$scope module mux3 $end
+$var reg 1 :" b0 $end
+$var reg 1 ;" b1 $end
+$var reg 1 <" b2 $end
+$var reg 1 =" b3 $end
+$var reg 1 >" s0 $end
+$var reg 1 ?" s1 $end
+$var reg 1 @" y0 $end
+$var reg 1 A" u0 $end
+$var reg 1 B" u1 $end
+$scope module mux0 $end
+$var reg 1 C" a0 $end
+$var reg 1 D" a1 $end
+$var reg 1 E" s $end
+$var reg 1 F" y $end
+$upscope $end
+$scope module mux1 $end
+$var reg 1 G" a0 $end
+$var reg 1 H" a1 $end
+$var reg 1 I" s $end
+$var reg 1 J" y $end
+$upscope $end
+$scope module mux2 $end
+$var reg 1 K" a0 $end
+$var reg 1 L" a1 $end
+$var reg 1 M" s $end
+$var reg 1 N" y $end
+$upscope $end
+$upscope $end
+$scope module mux4 $end
+$var reg 1 O" b0 $end
+$var reg 1 P" b1 $end
+$var reg 1 Q" b2 $end
+$var reg 1 R" b3 $end
+$var reg 1 S" s0 $end
+$var reg 1 T" s1 $end
+$var reg 1 U" y0 $end
+$var reg 1 V" u0 $end
+$var reg 1 W" u1 $end
+$scope module mux0 $end
+$var reg 1 X" a0 $end
+$var reg 1 Y" a1 $end
+$var reg 1 Z" s $end
+$var reg 1 [" y $end
+$upscope $end
+$scope module mux1 $end
+$var reg 1 \" a0 $end
+$var reg 1 ]" a1 $end
+$var reg 1 ^" s $end
+$var reg 1 _" y $end
+$upscope $end
+$scope module mux2 $end
+$var reg 1 `" a0 $end
+$var reg 1 a" a1 $end
+$var reg 1 b" s $end
+$var reg 1 c" y $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module demux4to1 $end
+$var reg 1 d" d $end
+$var reg 2 e" s000[1:0] $end
+$var reg 4 f" y000[0:3] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+b0000000000000000 !
+b000000 "
+b0--- #
+0$
+0%
+0&
+0'
+0(
+0)
+0*
+0+
+0,
+0-
+0.
+0/
+00
+01
+02
+03
+04
+05
+06
+07
+08
+09
+0:
+-;
+-<
+-=
+0>
+0?
+0@
+0A
+0B
+0C
+0D
+0E
+0F
+0G
+0H
+0I
+0J
+0K
+0L
+0M
+0N
+0O
+0P
+0Q
+0R
+0S
+0T
+0U
+0V
+0W
+0X
+0Y
+0Z
+0[
+0\
+0]
+0^
+0_
+0`
+0a
+0b
+0c
+0d
+0e
+0f
+0g
+0h
+0i
+0j
+0k
+0l
+0m
+0n
+0o
+0p
+0q
+0r
+0s
+0t
+0u
+0v
+0w
+0x
+0y
+0z
+0{
+0|
+0}
+0!"
+0""
+0#"
+0$"
+0%"
+0&"
+0'"
+0("
+0)"
+0*"
+0+"
+0,"
+0-"
+0."
+0/"
+00"
+01"
+02"
+03"
+04"
+05"
+06"
+07"
+08"
+09"
+0:"
+0;"
+0<"
+0="
+0>"
+0?"
+0@"
+0A"
+0B"
+0C"
+0D"
+0E"
+0F"
+0G"
+0H"
+0I"
+0J"
+0K"
+0L"
+0M"
+0N"
+0O"
+0P"
+0Q"
+0R"
+0S"
+0T"
+0U"
+0V"
+0W"
+0X"
+0Y"
+0Z"
+0["
+0\"
+0]"
+0^"
+0_"
+0`"
+0a"
+0b"
+0c"
+0d"
+b00 e"
+b0--- f"
+#100000000
+b0100000000000000 !
+b000110 "
+1%
+15
+16
+1@
+1P
+1Q
+1Y
+1]
+1b
+1k
+1r
+1#"
+1*"
+18"
+1?"
+1M"
+1S"
+1Z"
+1^"

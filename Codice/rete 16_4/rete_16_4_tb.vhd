@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use work.all;
 
 entity rete_16_4_tb is
 end rete_16_4_tb;
@@ -74,16 +75,16 @@ begin
 
     stim_proc: process begin
         wait for 100 ns;
-
-        -- input = b0 b1 b2 b3 ... b15
-        -- control = s3 s2 s1 s0
-
-        input    <= "0100000000000000"; -- 4000
-
-        control <= "000101"; -- ESCE IN HEX
+--                   +---+---+---+---  
+        input    <= "0000010000000000";
+--                  +-+-+-
+        control <= "100101"; --100101 = secondo ing del secondo mux --> output 3
+--                 OUT|
+--                   |41|
+--                     |IN
         wait for 10 ns;
 
-        assert output = "0010"
+        assert output = "0100"
             report "errore NON TI TROVI"
             severity failure;
 
