@@ -5,7 +5,6 @@ use ieee.numeric_std.all;
 entity sis_tot is
 	port(	
             a_tot : in STD_LOGIC_VECTOR (0 to 3);
-            s_tot : in STD_LOGIC_VECTOR (1 downto 0);
 			y_tot : out STD_LOGIC_VECTOR (0 to 3)
 		);		
 end sis_tot;
@@ -16,7 +15,6 @@ architecture sis_totArch of sis_tot is
     component M
         port(	
                 a_M : in STD_LOGIC_VECTOR (0 to 7);
-                s_M : in STD_LOGIC_VECTOR (1 downto 0);
                 y_M : out STD_LOGIC_VECTOR (0 to 3)
             );		
     end component;
@@ -37,8 +35,7 @@ architecture sis_totArch of sis_tot is
         M0: M 
             Port map(	
                         a_M => intermedio,
-                        y_M	=> y_tot,
-                        s_M => s_tot
+                        y_M	=> y_tot
                 );
 
 end sis_totArch;
