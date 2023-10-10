@@ -15,7 +15,7 @@ architecture MArch of M is
 
         port( 	
                 a_enc : in STD_LOGIC_VECTOR (0 to 3);
-                y_enc : out STD_LOGIC_VECTOR (1 downto 0)
+                y_enc : out STD_LOGIC_VECTOR (0 to 1)
         );
             
     end component;
