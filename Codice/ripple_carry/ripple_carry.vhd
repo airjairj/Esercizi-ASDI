@@ -28,7 +28,8 @@ architecture ripple_carryArch of ripple_carry is
 	for all : full_adder use entity work.full_adder;
 
     CONSTANT n : INTEGER := 4;
-	signal carry : std_logic_vector(0 TO 3); --SEGNALE d'APPOGGIO
+	signal carry  : std_logic_vector(3 downto 0); --SEGNALE d'APPOGGIO
+	signal uscita : std_logic_vector(3 downto 0); --SEGNALE d'APPOGGIO
 
     BEGIN
         c_all: FOR i IN 0 TO n-1 generate
@@ -37,8 +38,8 @@ architecture ripple_carryArch of ripple_carry is
                 (
                     a_f_a => a_r_p(i),
                     b_f_a => b_r_p(i),
-                    c_f_a => '0',
-                    s_f_a => s_r_p(i),
+                    c_f_a => c_r_p,
+                    s_f_a => uscita(i),
                     r_f_a => carry(i)
                 );
             END GENERATE;
@@ -49,11 +50,14 @@ architecture ripple_carryArch of ripple_carry is
                 a_f_a => a_r_p(i),
 				b_f_a => b_r_p(i),
                 c_f_a => carry(i-1),
-				s_f_a => s_r_p(i),
+				s_f_a => uscita(i),
 				r_f_a => carry(i)
             );
             END GENERATE;
 
         end generate;
+     
+     s_r_p <= uscita;
+     r_r_p <= carry(n-1);
 
 end ripple_carryArch;

@@ -13,15 +13,15 @@ architecture ripple_carry_tbArch of ripple_carry_tb is
                 b_r_p : in STD_LOGIC_VECTOR (3 downto 0);
                 c_r_p : in STD_LOGIC;
                 s_r_p : out STD_LOGIC_VECTOR (3 downto 0);
-                r_r_p : out STD_LOGIC
+			    r_r_p : out STD_LOGIC
         );		
     end component;
 
     signal input1   : STD_LOGIC_VECTOR (3 downto 0) := (others => '0');
     signal input2   : STD_LOGIC_VECTOR (3 downto 0) := (others => '0');
     signal carry1   : STD_LOGIC := '0';
-    signal carry2   : STD_LOGIC := '0';
-    signal output   : STD_LOGIC_VECTOR (0 to 3) := "UUUU";
+    signal overflow : STD_LOGIC := '0';
+    signal output   : STD_LOGIC_VECTOR (3 downto 0) := "UUUU";
 
 begin
 
@@ -30,18 +30,18 @@ begin
         b_r_p => input2,
         c_r_p => carry1,
         s_r_p => output,
-        r_r_p => carry2
+        r_r_p => overflow
     );
 
     stim_proc: process begin
         wait for 100 ns;
 --                   +--- 
-        input1    <= "1001";
-        input2    <= "0001";
+        input1    <= "1111";
+        input2    <= "1111";
         wait for 10 ns;
 
 
-        assert output = "1000"
+        assert output = "0000"
             report "errore NON TI TROVI"
             severity failure;
 
