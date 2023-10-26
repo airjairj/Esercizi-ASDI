@@ -26,20 +26,20 @@ begin
                 tmp(2) <= tmp(1);
                 tmp(3) <= tmp(2);
                                 
-               -- SO <= tmp(3);  --se inserisco qui questa istruzione invece che fuori dal process,
-                               --l'uscita SO non viene aggiornata contestualmente a tmp(3) 
-                               --ci vorr� un altro fronte del clock per vedere SO e quindi, per conservare
-                               --il valore di tmp(3) fino al prossimo clock, verr� inserito un altro flip-flop
-                               --tra tmp(3) e SO      
+                -- SO <= tmp(3);--se inserisco qui questa istruzione invece che fuori dal process,
+                                --l'uscita SO non viene aggiornata contestualmente a tmp(3) 
+                                --ci vorrà un altro fronte del clock per vedere SO e quindi, per conservare
+                                --il valore di tmp(3) fino al prossimo clock, verrà inserito un altro flip-flop
+                                --tra tmp(3) e SO      
             end if;
             
         end if;
-        --SO <= tmp(3);  --se inserisco qui questa istruzione, il valore di SO � aggiornato alla prossima
-                       --attivazione del process, quindi sul fronte di discesa successivo a quando � stato
-                       --aggiornato tmp(3)
-      end process;
-      SO <= tmp(3);  --se inserisco qui questa istruzione, il valore di SO viene aggiornato continuamente
-                       --in maniera concorrente
+        --SO <= tmp(3); --se inserisco qui questa istruzione, il valore di SO è aggiornato alla prossima
+                        --attivazione del process, quindi sul fronte di discesa successivo a quando è stato
+                        --aggiornato tmp(3)
+    end process;
+    SO <= tmp(3);   --se inserisco qui questa istruzione, il valore di SO viene aggiornato continuamente
+                    --in maniera concorrente
     
 
 end archi;
