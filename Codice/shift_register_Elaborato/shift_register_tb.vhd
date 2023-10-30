@@ -41,7 +41,53 @@ architecture bench of shift_register_tb is
         begin
         
           wait for 100 ns;
-          Y <= '1'; --Cambiare per: Non sovrapposte (0) | Parzialmente sovrapposte (1)
+          Y <= 1; --Cambiare per: 1 bit shift (1) | 2 bit shift (2)
+          SI <= '0';
+         
+          wait for 10 ns;
+          SI <= '1';
+          
+          wait for 10 ns;
+          SI <= '1';
+
+          wait for 10 ns;
+          SI <= '0';
+
+          wait for 10 ns;
+          SI <= '1';
+
+          wait for 10 ns;
+          SI <= '0';
+
+          wait for 10 ns;
+          SI <= '1';
+
+          wait for 10 ns;
+          SI <= '0';
+
+          wait for 10 ns;
+          SI <= '1';
+
+          wait for 10 ns;
+          SI <= '1';
+
+          wait for 10 ns;
+          SI <= '1';
+
+          wait for 10 ns;
+          SI <= '0';
+          
+          wait for 10 ns;
+          SI <= '0';
+          
+          wait for 10 ns;
+          SI <= '0';
+          
+          wait for 10 ns;
+          SI <= '0';
+
+          wait for 100 ns;
+          Y <= 2; --Cambiare per: 1 bit shift (1) | 2 bit shift (2)
           SI <= '0';
          
           wait for 10 ns;
