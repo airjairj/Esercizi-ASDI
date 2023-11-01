@@ -16,18 +16,28 @@ architecture shift_registerArch of shift_register is
     signal tmp: std_logic_vector(N - 1 downto 0);
 begin
     process (CLK)
+        variable shift_tmp: std_logic_vector(N - 1 downto 0);
     begin
         if (rising_edge(CLK)) then
             if (RST = '1') then
                 tmp <= (others => '0');
             else
-                -- Shift a destra di Y posizioni
-                for k in 1 to Y loop
-                    tmp(0) <= SI;
+                shift_tmp := tmp;
+                if Y = 1 then
+                    -- Shift a destra di 1 posizione
+                    shift_tmp(0) := SI;
                     for i in 1 to (N - 1) loop
-                        tmp(i) <= tmp(i - 1);
+                        shift_tmp(i) := tmp(i - 1);
                     end loop;
-                end loop;
+                elsif Y = 2 then
+                    -- Shift a destra di 2 posizioni
+                    shift_tmp(0) := SI;
+                    shift_tmp(1) := SI;
+                    for i in 2 to (N - 1) loop
+                        shift_tmp(i) := tmp(i - 2);
+                    end loop;
+                end if;
+                tmp <= shift_tmp;
             end if;
         end if;
     end process;
