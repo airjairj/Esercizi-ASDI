@@ -1,72 +1,65 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use IEEE.NUMERIC_STD.ALL;
 
-entity tb_sis_tot is
-end tb_sis_tot;
+entity sis_tot_tb is
+end entity sis_tot_tb;
 
-architecture tb of tb_sis_tot is
-
+architecture sis_tot_tbArch of sis_tot_tb is
     component sis_tot
-        port (start_tot : in std_logic;
-              RST       : in std_logic;
-              CLK_tot   : in std_logic;
-              a_tot     : in std_logic_vector (0 to 3);
-              y_tot     : out std_logic_vector (0 to 3));
+        port(	
+                start_tot : in STD_LOGIC;
+                avanza_contatore : in std_logic;
+                RST_tot : in STD_LOGIC;
+                CLK_tot : in STD_LOGIC;
+                a_tot : in STD_LOGIC_VECTOR (0 to 3);
+                y_tot : out STD_LOGIC_VECTOR (0 to 3)
+            );		
     end component;
 
-    signal start_tot : std_logic;
-    signal RST       : std_logic;
-    signal CLK_tot   : std_logic;
-    signal a_tot     : std_logic_vector (0 to 3);
-    signal y_tot     : std_logic_vector (0 to 3);
+    signal start : std_logic := '0';
+    signal avanza : std_logic := '0';
+    signal RST   : std_logic := '1';
+    signal CLK   : std_logic := '0';
+    signal a     : std_logic_vector (0 to 3);
+    signal y     : std_logic_vector (0 to 3);
 
-    constant TbPeriod : time := 10 ns; -- EDIT Put right period here
-    signal TbClock : std_logic := '0';
-    signal TbSimEnded : std_logic := '0';
+    signal stop_the_clock: boolean := false;
 
-begin
+    constant clock_period: time := 10 ns;
 
-    dut : sis_tot
-    port map (start_tot => start_tot,
-              RST       => RST,
-              CLK_tot   => CLK_tot,
-              a_tot     => a_tot,
-              y_tot     => y_tot);
-
-    -- Clock generation
-    TbClock <= not TbClock after TbPeriod/2 when TbSimEnded /= '1' else '0';
-
-    -- EDIT: Check that CLK_tot is really your main clock signal
-    CLK_tot <= TbClock;
-
-    stimuli : process
     begin
-        -- EDIT Adapt initialization as needed
-        start_tot <= '0';
-        a_tot <= (others => '0');
+        uut : sis_tot
+        port map (
+            start_tot => start,
+            avanza_contatore => avanza,
+            RST_tot => RST,
+            CLK_tot => CLK,
+            a_tot => a,
+            y_tot => y
+        );
+      
+        stimulus: process
+        begin
+          RST <= '1';
+          start <= '1';
+          wait for 100 ns;
+          RST <= '0';
+      
+          wait for 10000 ns;
+      
+          stop_the_clock <= true;
+          wait;
+        end process;
+      
+        clocking: process
+        begin
+          while not stop_the_clock loop
+            CLK <= not CLK after clock_period / 2;
+            avanza <= not avanza after clock_period / 4;
+            wait for clock_period / 2;
+          end loop;
+          wait;
+        end process;
 
-        RST <= '1';
-        wait for 100 ns;
-        RST <= '0';
-        start_tot <= '1';
-        wait for 100 ns;
-
-        -- EDIT Add stimuli here
-        wait for 100 * TbPeriod;
-
-
-
-
-        -- Stop the clock and hence terminate the simulation
-        TbSimEnded <= '1';
-        wait;
-    end process;
-
-end tb;
-
--- Configuration block below is required by some simulators. Usually no need to edit.
-
-configuration cfg_tb_sis_tot of tb_sis_tot is
-    for tb
-    end for;
-end cfg_tb_sis_tot;
+end architecture sis_tot_tbArch;

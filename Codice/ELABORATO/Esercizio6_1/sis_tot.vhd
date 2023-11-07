@@ -5,7 +5,8 @@ use ieee.numeric_std.all;
 entity sis_tot is
 	port(	
             start_tot : in STD_LOGIC;
-            RST : in STD_LOGIC;
+            avanza_contatore : in std_logic;
+            RST_tot : in STD_LOGIC;
             CLK_tot : in STD_LOGIC;
             a_tot : in STD_LOGIC_VECTOR (0 to 3);
 			y_tot : out STD_LOGIC_VECTOR (0 to 3)
@@ -13,8 +14,8 @@ entity sis_tot is
 end sis_tot;
 
 architecture sis_totArch of sis_tot is
-	signal intermedio : STD_LOGIC_VECTOR (0 to 7);
-	signal intermedio2 : STD_LOGIC_VECTOR (0 to 3);
+	signal intermedio_ROM_M : STD_LOGIC_VECTOR (0 to 7);
+	signal intermedio_M_MEM : STD_LOGIC_VECTOR (0 to 3);
     signal o_contatore: integer;
     
     component M
@@ -43,15 +44,15 @@ architecture sis_totArch of sis_tot is
         );
     end component;
 
-    component contatore_mod_N
+    component MOD_N_COUNTER
         generic (
                     N: integer := 16
         );
-        port(
-                    a      : in std_logic;
-                    reset  : in std_logic;
-                    enable : in std_logic;
-                    o      : out integer
+        Port (
+                    clk : in std_logic;
+                    reset : in std_logic;
+                    counter : out integer;
+                    enable : in std_logic
         );
     end component;
 
@@ -61,32 +62,32 @@ architecture sis_totArch of sis_tot is
                         CLK => CLK_tot,
                         s_read => start_tot,
                         address => o_contatore, 
-						out_rom => intermedio
+						out_rom => intermedio_ROM_M
 					);
         M0: M 
             Port map(	
-                        a_M => intermedio,
-                        y_M	=> intermedio2
+                        a_M => intermedio_ROM_M,
+                        y_M	=> intermedio_M_MEM
                 );
         
         MEM0: MEM
             Port map(	
-                        CLK => CLK_tot,
+                        CLK => avanza_contatore,
                         address => o_contatore,
-                        m_in => intermedio2,
+                        m_in => intermedio_M_MEM,
                         s_write => start_tot,
                         out_mem => y_tot
                 );
 
-        Cont: contatore_mod_N
+        Cont: MOD_N_COUNTER
             generic map (
                         N => 16
             )
             Port map(	
-                        a => CLK_tot,
-                        reset => RST,
-                        enable => start_tot,
-                        o => o_contatore
+                        clk => CLK_tot,
+                        reset => RST_tot,
+                        enable => avanza_contatore,
+                        counter => o_contatore
             );
 
 end sis_totArch;
