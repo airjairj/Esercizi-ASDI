@@ -1,35 +1,43 @@
-library ieee;
-use ieee.std_logic_1164.all;
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.numeric_std.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-entity cont_mod_N is
-    generic (
-        N: integer := 16
+entity MOD_N_COUNTER is
+    Generic (N : integer := 0);  -- Imposta il valore di N come desideri
+    Port (
+        clk : in std_logic;         -- clock input
+        reset : in std_logic;       -- reset input
+        counter : out integer;
+        outp : out std_logic;
+        val_iniziale : in integer
     );
-    port
-    (
-        a      : in std_logic;
-        reset  : in std_logic;
-        enable : in std_logic;
-        o      : out integer  -- o codificato su 4 bit
-    );
-end cont_mod_N;
+end MOD_N_COUNTER;
 
-architecture cont_mod_NArch of cont_mod_N is
+architecture Behavioral of MOD_N_COUNTER is
+    signal counter_up : integer := 0;
+    signal o_temp : std_logic := '0';
 begin
-    process (a, reset, enable)
-    variable contatore : integer range 0 to N-1 := 0;
+    process(clk)
     begin
         if reset = '1' then
-            contatore := 0;
-        elsif rising_edge(a) and enable = '1' then
-            if contatore = N-1 then
-                contatore := 0;
+            counter_up <= val_iniziale;
+        end if;
+        if rising_edge(clk) then
+            if reset = '1' then
+                counter_up <= val_iniziale;
             else
-                contatore := contatore + 1;
+                if counter_up = N - 1 then
+                    counter_up <= 0;
+                    o_temp <= '1';
+                else
+                    counter_up <= counter_up + 1;
+                    o_temp <= '0';
+                end if;
             end if;
         end if;
-        o <= contatore;
     end process;
 
-     -- Converti l'integer in std_logic_vector a 4 bit
-end cont_mod_NArch;
+    counter <= counter_up;
+    outp <= o_temp;
+end Behavioral;

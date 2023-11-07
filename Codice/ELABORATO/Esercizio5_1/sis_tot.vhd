@@ -4,14 +4,14 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity sis_tot is
     Port (
-        h_start : in integer;
-        m_start : in integer;
-        s_start : in integer;
         RST_tot : in STD_LOGIC;
         CLK_tot : in STD_LOGIC;
         ore : out integer;
         minuti : out integer;
-        secondi : out integer
+        secondi : out integer;
+        h_iniziale : in integer;
+        m_iniziale : in integer;
+        s_iniziale : in integer
     );
 end sis_tot;
 
@@ -26,13 +26,10 @@ architecture sis_totArch of sis_tot is
       clk : in std_logic;         -- clock input
       reset : in std_logic;       -- reset input
       counter : out integer;
-      outp : out std_logic
+      outp : out std_logic;
+      val_iniziale : in integer
     );
   end component;
-
-  signal reset, clk: std_logic;
-  signal counter: integer; -- Modifica 16 al valore di N desiderato
-
 
 begin
     cont_secondi: MOD_N_COUNTER
@@ -41,7 +38,8 @@ begin
         clk => CLK_tot,
         reset => RST_tot,
         counter => secondi,
-        outp => s_intermedio
+        outp => s_intermedio,
+        val_iniziale => s_iniziale
         );
     cont_minuti: MOD_N_COUNTER
     generic map (N => 60)  -- Imposta il valore di N come desideri
@@ -49,16 +47,18 @@ begin
         clk => s_intermedio,
         reset => RST_tot,
         counter => minuti,
-        outp => m_intermedio
+        outp => m_intermedio,
+        val_iniziale => m_iniziale
         );
 
     cont_ore: MOD_N_COUNTER
     generic map (N => 24)  -- Imposta il valore di N come desideri
     port map (
-        clk => CLK_tot,
+        clk => m_intermedio,
         reset => RST_tot,
         counter => ore,
-        outp => h_intermedio
+        outp => h_intermedio,
+        val_iniziale => h_iniziale
         );
 
 

@@ -14,32 +14,23 @@ end entity MEM;
 
 architecture MemArch of MEM is
     type MEMORY_N_4 is array (0 to 15) of std_logic_vector(3 downto 0);
-        constant MEM_N_4 : MEMORY_N_4 := (
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0",
-        x"0"
-        );
-
     begin
         process (CLK,s_write)
-    begin
-        if (rising_edge(CLK) and s_write = '1') then
-            MEM_N_4(address) <= m_in; --esad???
-        end if;
-    end process;
+            begin
+                if (rising_edge(CLK) and s_write = '1') then
+                    MEMORY_N_4(address) <= m_in;
+                end if;
+            end process;
         out_mem <= MEM_N_4(address)
 
+--        begin
+--            if rising_edge(clock) then
+--              if we = '1' then
+--                ram(to_integer(unsigned(address))) <= datain;
+--              end if;
+--              read_address <= address;
+--            end if;
+--          end process RamProc;      
+--          dataout <= ram(to_integer(unsigned(read_address)));
+        
 end MemArch;

@@ -9,7 +9,8 @@ entity MOD_N_COUNTER is
         clk : in std_logic;         -- clock input
         reset : in std_logic;       -- reset input
         counter : out integer;
-        outp : out std_logic
+        outp : out std_logic;
+        val_iniziale : in integer
     );
 end MOD_N_COUNTER;
 
@@ -19,9 +20,12 @@ architecture Behavioral of MOD_N_COUNTER is
 begin
     process(clk)
     begin
+        if reset = '1' then
+            counter_up <= val_iniziale;
+        end if;
         if rising_edge(clk) then
             if reset = '1' then
-                counter_up <= 0;
+                counter_up <= val_iniziale;
             else
                 if counter_up = N - 1 then
                     counter_up <= 0;
