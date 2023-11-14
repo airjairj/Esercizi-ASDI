@@ -33,7 +33,7 @@ architecture RomArch of ROM is
         );
 
     begin
-        process (CLK,s_read)
+        process (CLK)
     begin
         if (rising_edge(CLK) and s_read = '1') then
             out_rom <= ROM_N_4(address);

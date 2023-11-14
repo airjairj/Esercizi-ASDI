@@ -12,16 +12,14 @@ architecture sis_tot_tbArch of sis_tot_tb is
                 avanza_contatore : in std_logic;
                 RST_tot : in STD_LOGIC;
                 CLK_tot : in STD_LOGIC;
-                a_tot : in STD_LOGIC_VECTOR (0 to 3);
                 y_tot : out STD_LOGIC_VECTOR (0 to 3)
             );		
     end component;
 
     signal start : std_logic := '0';
-    signal avanza : std_logic := '0';
+    signal avanza : std_logic := '1';
     signal RST   : std_logic := '1';
     signal CLK   : std_logic := '0';
-    signal a     : std_logic_vector (0 to 3);
     signal y     : std_logic_vector (0 to 3);
 
     signal stop_the_clock: boolean := false;
@@ -35,18 +33,19 @@ architecture sis_tot_tbArch of sis_tot_tb is
             avanza_contatore => avanza,
             RST_tot => RST,
             CLK_tot => CLK,
-            a_tot => a,
             y_tot => y
         );
       
         stimulus: process
         begin
+          wait for 10 ns;
+          --Neanche questi fa vedere??
           RST <= '1';
           start <= '1';
           wait for 100 ns;
           RST <= '0';
       
-          wait for 10000 ns;
+          wait for 100 ns;
       
           stop_the_clock <= true;
           wait;
@@ -56,10 +55,9 @@ architecture sis_tot_tbArch of sis_tot_tb is
         begin
           while not stop_the_clock loop
             CLK <= not CLK after clock_period / 2;
-            avanza <= not avanza after clock_period / 4;
             wait for clock_period / 2;
           end loop;
           wait;
         end process;
 
-end architecture sis_tot_tbArch;
+end sis_tot_tbArch;

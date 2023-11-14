@@ -8,7 +8,6 @@ entity sis_tot is
             avanza_contatore : in std_logic;
             RST_tot : in STD_LOGIC;
             CLK_tot : in STD_LOGIC;
-            a_tot : in STD_LOGIC_VECTOR (0 to 3);
 			y_tot : out STD_LOGIC_VECTOR (0 to 3)
 		);		
 end sis_tot;
@@ -57,6 +56,17 @@ architecture sis_totArch of sis_tot is
     end component;
 
 	begin
+        Cont: MOD_N_COUNTER
+            generic map (
+                        N => 16
+            )
+            Port map(	
+                        clk => CLK_tot,
+                        reset => RST_tot,
+                        enable => avanza_contatore,
+                        counter => o_contatore
+            );
+
 		ROM0: ROM 
 			Port map(	
                         CLK => CLK_tot,
@@ -72,22 +82,13 @@ architecture sis_totArch of sis_tot is
         
         MEM0: MEM
             Port map(	
-                        CLK => avanza_contatore,
+                        CLK => clk_tot,
                         address => o_contatore,
                         m_in => intermedio_M_MEM,
                         s_write => start_tot,
                         out_mem => y_tot
                 );
 
-        Cont: MOD_N_COUNTER
-            generic map (
-                        N => 16
-            )
-            Port map(	
-                        clk => CLK_tot,
-                        reset => RST_tot,
-                        enable => avanza_contatore,
-                        counter => o_contatore
-            );
+
 
 end sis_totArch;
