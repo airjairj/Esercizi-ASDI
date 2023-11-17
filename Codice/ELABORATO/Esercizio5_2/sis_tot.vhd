@@ -22,6 +22,7 @@ architecture sis_totArch of sis_tot is
     Port (
         clk : in std_logic;         -- clock input
         reset : in std_logic;       -- reset input
+        enable : in std_logic;
         counter : out integer;
         outp : out std_logic;
         val_iniziale : in std_logic_vector(5 downto 0) := (others => '0');
@@ -43,19 +44,17 @@ architecture sis_totArch of sis_tot is
   end component;
   
     COMPONENT display_seven_segments
-	GENERIC(
-		CLKIN_freq : integer := 100000000; --frequenza del clock in input: quello della board NexysA7 ? a 100MHz
-		CLKOUT_freq : integer := 500  --frequenza dell'impulso in uscita, in corrispondenza del quale 
-		                              --si scandisce ciascuna cifra (deve essere compreso fra 500Hz e 8KHz)
+	Generic( 
+				CLKIN_freq : integer := 100000000; 
+				CLKOUT_freq : integer := 500
 				);
-	PORT(
-		CLK : IN std_logic;
-		RST : IN std_logic;
-		VALUE : IN integer;--valori da mostrare sugli 8 display
-		ENABLE : IN std_logic_vector(7 downto 0);--abilitazione di ciascuna cifra (accensione)
-		DOTS : IN std_logic_vector(7 downto 0); --abilitazione punti (accensione)      
-		ANODES : OUT std_logic_vector(7 downto 0);
-		CATHODES : OUT std_logic_vector(7 downto 0)
+    Port ( CLK : in  STD_LOGIC;
+           RST : in  STD_LOGIC;
+           VALUE : in  STD_LOGIC_VECTOR (31 downto 0);
+           ENABLE : in  STD_LOGIC_VECTOR (7 downto 0); -- decide quali cifre abilitare
+           DOTS : in  STD_LOGIC_VECTOR (7 downto 0); -- decide quali punti visualizzare
+           ANODES : out  STD_LOGIC_VECTOR (7 downto 0);
+           CATHODES : out  STD_LOGIC_VECTOR (7 downto 0)
 		);
 END COMPONENT;
 
@@ -70,17 +69,30 @@ END COMPONENT;
 		clock_out : OUT std_logic
 		);
 END COMPONENT;
+    
+    COMPONENT  BOH is
+    Port (
+        secondi : in integer;
+        minuti : in integer;
+        ore : in integer;
+        outp : out std_logic_vector(31 downto 0)
+    );
+end COMPONENT;
 
     signal h_intermedio : std_logic;
     signal m_intermedio : std_logic;
     signal s_intermedio : std_logic;
+    
     signal b_s_pulito   : std_logic;
     signal b_m_pulito   : std_logic;
     signal b_o_pulito   : std_logic;
+    
     signal val_temp     : std_logic_vector(31 downto 0);
-    signal secondi2     : integer;
-    signal minuti2      : integer;
-    signal ore2         : integer;
+    
+    signal secondi2     : integer := 0;
+    signal minuti2      : integer := 0;
+    signal ore2         : integer := 0;
+    
     signal clock_BUONO  : std_logic;
 
 begin
@@ -98,8 +110,9 @@ begin
     cont_secondi: MOD_N_COUNTER
     generic map (N => 60)
     port map (
-        clk => clock_BUONO,
+        clk => CLK_tot,
         reset => RST_tot,
+        enable => clock_BUONO,
         counter => secondi2,
         outp => s_intermedio,
         val_iniziale => val_inizio,
@@ -111,6 +124,7 @@ begin
     port map (
         clk => s_intermedio,
         reset => RST_tot,
+        enable => CLK_tot,
         counter => minuti2,
         outp => m_intermedio,
         val_iniziale => val_inizio,
@@ -122,6 +136,7 @@ begin
     port map (
         clk => m_intermedio,
         reset => RST_tot,
+        enable => CLK_tot,
         counter => ore2,
         outp => h_intermedio,
         val_iniziale => val_inizio,
@@ -164,14 +179,23 @@ begin
             CLEARED_BTN => b_o_pulito
         );      
     
-    seven_segment_array: display_seven_segments GENERIC MAP(
-	CLKIN_freq => 100000000, --qui inserisco i parametri effettivi (clock della board e clock in uscita desiderato)
-	CLKOUT_freq => 500 --inserendo un valore inferiore si vedranno le cifre illuminarsi in sequenza
+    Macchina_BOH : BOH
+    Port map(
+        secondi => secondi2,
+        minuti => minuti2,
+        ore => ore2,
+        outp => val_temp
+    );
+    
+    seven_segment_array: display_seven_segments 
+    GENERIC MAP(
+	    CLKIN_freq => 100000000, --qui inserisco i parametri effettivi (clock della board e clock in uscita desiderato)
+    	CLKOUT_freq => 500 --inserendo un valore inferiore si vedranno le cifre illuminarsi in sequenza
 	)
 	PORT MAP(
 		CLK => CLK_tot,
-		RST => RST_tot,
-		value => secondi2,
+		RST => '0',
+		value => val_temp,
 		enable => "11111111", --stabilisco che tutti i display siano accesi 
 		dots => "00000000",  --stabilisco che tutti i punti siano spenti
 		anodes => anodes_out,

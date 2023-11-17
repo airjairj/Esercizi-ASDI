@@ -8,10 +8,10 @@ entity display_seven_segments is
 				);
     Port ( CLK : in  STD_LOGIC;
            RST : in  STD_LOGIC;
-           VALUE : in  integer;
+           VALUE : in  STD_LOGIC_VECTOR (31 downto 0);
            ENABLE : in  STD_LOGIC_VECTOR (7 downto 0); -- decide quali cifre abilitare
            DOTS : in  STD_LOGIC_VECTOR (7 downto 0); -- decide quali punti visualizzare
-           ANODES : out  STD_LOGIC_VECTOR (7 downto 0):= (others => '0');
+           ANODES : out  STD_LOGIC_VECTOR (7 downto 0);
            CATHODES : out  STD_LOGIC_VECTOR (7 downto 0));
 end display_seven_segments;
 
@@ -20,12 +20,30 @@ architecture Structural of display_seven_segments is
 signal counter : std_logic_vector(2 downto 0);
 signal clock_filter_out : std_logic := '0';
 
+COMPONENT counter_mod8
+	PORT(
+		clock : in  STD_LOGIC;
+        reset : in  STD_LOGIC;
+		enable : in STD_LOGIC;
+        counter : out  STD_LOGIC_VECTOR (2 downto 0)
+		);
+END COMPONENT;
+
 COMPONENT cathodes_manager
 	PORT(
 		counter : IN std_logic_vector(2 downto 0);
-		value : IN integer;
+		value : IN std_logic_vector(31 downto 0);
 		dots : IN std_logic_vector(7 downto 0);          
 		cathodes : OUT std_logic_vector(7 downto 0)
+		);
+END COMPONENT;
+
+COMPONENT anodes_manager
+	PORT(
+
+		counter : IN std_logic_vector(2 downto 0);
+		enable_digit : IN std_logic_vector(7 downto 0);          
+		anodes : OUT std_logic_vector(7 downto 0)
 		);
 END COMPONENT;
 
@@ -55,12 +73,27 @@ clk_filter: clock_filter GENERIC MAP(
 		clock_out => clock_filter_out
 	);
 
+counter_instance: counter_mod8 port map(
+	clock => CLK,
+	enable => clock_filter_out,
+	reset => RST,
+	counter => counter
+);
+--il valore di conteggio viene usato dal gestore dei catodi e degli anodi per
+--selezionare l'anodo da accendere e il suo rispettivo valore
 cathodes_instance: cathodes_manager port map(
 	counter => counter,
 	value => value,
 	dots => dots,
 	cathodes => cathodes
 );
+
+anodes_instance: anodes_manager port map(
+	counter => counter,
+	enable_digit => enable,
+	anodes => anodes
+);
+
 
 end Structural;
 
