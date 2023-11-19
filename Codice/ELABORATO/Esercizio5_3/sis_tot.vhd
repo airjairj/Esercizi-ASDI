@@ -13,6 +13,7 @@ entity sis_tot is
 		b_ore : in STD_LOGIC;
 		b_salvataggio : in STD_LOGIC;
         lucine_out : out std_logic_vector(7 downto 0);
+        switch_in  : in std_logic_vector(7 downto 0);
         val_inizio : in STD_LOGIC_VECTOR(5 downto 0);
         mostra_salvati : in std_logic
     );
@@ -90,7 +91,8 @@ end COMPONENT;
         segnale_salva : in std_logic;
         valore : in std_logic_vector(31 downto 0);
         lucine : out std_logic_vector(7 downto 0);
-        output_memoria : out std_logic_vector(31 downto 0)
+        output_memoria : out std_logic_vector(31 downto 0);
+        input_switch : in std_logic_vector(7 downto 0)
     );
 end component;
 
@@ -224,7 +226,8 @@ begin
         segnale_salva => b_salvataggio_pulito,
         valore => val_temp,
         lucine => lucine_out,
-        output_memoria => val_salvato
+        output_memoria => val_salvato,
+        input_switch => switch_in
     );
     
     seven_segment_array: display_seven_segments 

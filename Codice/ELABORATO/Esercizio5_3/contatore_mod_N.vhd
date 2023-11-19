@@ -17,8 +17,6 @@ entity MOD_N_COUNTER is
     );
 end MOD_N_COUNTER;
 
-
-
 architecture Behavioral of MOD_N_COUNTER is
     signal counter_up : integer := 0;
     signal o_temp : std_logic := '0';

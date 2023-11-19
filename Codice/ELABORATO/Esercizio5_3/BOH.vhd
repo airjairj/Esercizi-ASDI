@@ -12,7 +12,9 @@ entity BOH is
         secondi : in integer;
         minuti : in integer;
         ore : in integer;
-        outp : out std_logic_vector(31 downto 0)
+        outp : out std_logic_vector(31 downto 0);
+        modalita_normale : in std_logic;
+        valore_salvato : in std_logic_vector(31 downto 0)
     );
 end BOH;
 
@@ -30,7 +32,7 @@ architecture BOHArch of BOH is
     signal uscita_temp : std_logic_vector(31 downto 0);
 
 begin
-    
+ 
     secondi_u <= secondi mod 10;
     secondi_d <= secondi / 10;
     minuti_u <= minuti mod 10;
@@ -53,6 +55,17 @@ begin
     uscita_temp(19 downto 12) <= minuti_tot;
     uscita_temp(31 downto 24) <= ore_tot;
 
-    outp <= uscita_temp;
+    process (modalita_normale)
+    begin
+        if modalita_normale = '1' then
+            outp <= valore_salvato;
+        else
+            outp <= uscita_temp;
+        end if;
+    end process;
+    --outp <= uscita_temp; --Questo è il base
+    --outp <= valore_salvato;
+    
+    --outp <= ((NOT modalita_normale) AND uscita_temp) OR (modalita_normale AND valore_salvato);
 
 end BOHArch;
