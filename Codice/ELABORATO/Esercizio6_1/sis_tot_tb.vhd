@@ -9,7 +9,6 @@ architecture sis_tot_tbArch of sis_tot_tb is
     component sis_tot
         port(	
                 start_tot : in STD_LOGIC;
-                avanza_contatore : in std_logic;
                 RST_tot : in STD_LOGIC;
                 CLK_tot : in STD_LOGIC;
                 y_tot : out STD_LOGIC_VECTOR (0 to 3)
@@ -17,7 +16,6 @@ architecture sis_tot_tbArch of sis_tot_tb is
     end component;
 
     signal start : std_logic := '0';
-    signal avanza : std_logic := '1';
     signal RST   : std_logic := '1';
     signal CLK   : std_logic := '0';
     signal y     : std_logic_vector (0 to 3);
@@ -30,7 +28,6 @@ architecture sis_tot_tbArch of sis_tot_tb is
         uut : sis_tot
         port map (
             start_tot => start,
-            avanza_contatore => avanza,
             RST_tot => RST,
             CLK_tot => CLK,
             y_tot => y
@@ -39,12 +36,15 @@ architecture sis_tot_tbArch of sis_tot_tb is
         stimulus: process
         begin
           wait for 10 ns;
-          --Neanche questi fa vedere??
           RST <= '1';
-          start <= '1';
+          start <= '0';
           wait for 100 ns;
           RST <= '0';
-      
+          start <= '1';
+
+          wait for 100 ns;
+          wait for 100 ns;
+          wait for 100 ns;
           wait for 100 ns;
       
           stop_the_clock <= true;

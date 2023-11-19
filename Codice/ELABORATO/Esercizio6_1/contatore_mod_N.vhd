@@ -4,35 +4,42 @@ use IEEE.numeric_std.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity MOD_N_COUNTER is
-    Generic (N : integer := 0);  -- Imposta il valore di N come desideri
+    Generic (N : integer := 16);  -- Imposta il valore di N come desideri
     Port (
-        clk : in std_logic;         -- clock input
-        reset : in std_logic;       -- reset input
-        enable : in std_logic;
-        counter : out integer
+        clk           : in std_logic;      -- clock input
+        reset         : in std_logic;      -- reset input
+        enable        : in std_logic;      -- start
+        counter       : out std_logic_vector (3 downto 0);
+        segnale_read  : out std_logic;
+        segnale_write : out std_logic
     );
 end MOD_N_COUNTER;
 
 architecture Behavioral of MOD_N_COUNTER is
     signal counter_up : integer := 0;
+    signal puoi_avanzare : std_logic;
 begin
-    process(clk,enable)
+    process(clk,enable,reset)
     begin
-        if reset = '1' then
-            counter_up <= 0;
-        end if;
-        if (rising_edge(clk) and enable = '1') then
+        if rising_edge(clk) then
             if reset = '1' then
                 counter_up <= 0;
             else
-                if counter_up = N - 1 then
-                    counter_up <= 0;
-                else
-                    counter_up <= counter_up + 1;
-                end if;
+               if enable = '1' then
+                   if counter_up = N - 1 then
+                       counter_up <= 0;
+                   else
+                       counter_up <= counter_up + 1;
+                   end if;
+                   segnale_read <= '1';
+                   segnale_write <= '0';
+               else
+                   segnale_write <= '1';
+                   segnale_read <= '0';
+               end if;
             end if;
         end if;
     end process;
 
-    counter <= counter_up;
+    counter <= std_logic_vector(to_unsigned(counter_up, counter'length));
 end Behavioral;

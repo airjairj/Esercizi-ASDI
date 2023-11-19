@@ -6,12 +6,13 @@ entity ROM is
     port(
         CLK : in STD_LOGIC;
         s_read : in std_logic;
-        address : in integer;
+        address : in std_logic_vector (3 downto 0);
         out_rom : out std_logic_vector(7 downto 0)
     );
 end entity ROM;
 
 architecture RomArch of ROM is
+    signal ind : integer := 0;
     type MEMORY_N_4 is array (0 to 15) of std_logic_vector(7 downto 0);
         constant ROM_N_4 : MEMORY_N_4 := (
         x"11",
@@ -33,10 +34,11 @@ architecture RomArch of ROM is
         );
 
     begin
-        process (CLK)
+        ind <= to_integer(unsigned(address));
+        process (CLK,s_read)
     begin
         if (rising_edge(CLK) and s_read = '1') then
-            out_rom <= ROM_N_4(address);
+            out_rom <= ROM_N_4(ind);
         end if;
     end process;
 end RomArch;
