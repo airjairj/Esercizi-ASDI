@@ -9,15 +9,12 @@ entity MOD_N_COUNTER is
         clk           : in std_logic;      -- clock input
         reset         : in std_logic;      -- reset input
         enable        : in std_logic;      -- start
-        counter       : out std_logic_vector (3 downto 0);
-        segnale_read  : out std_logic;
-        segnale_write : out std_logic
+        counter       : out std_logic_vector (3 downto 0)
     );
 end MOD_N_COUNTER;
 
 architecture Behavioral of MOD_N_COUNTER is
     signal counter_up : integer := 0;
-    signal puoi_avanzare : std_logic;
 begin
     process(clk,enable,reset)
     begin
@@ -31,11 +28,6 @@ begin
                    else
                        counter_up <= counter_up + 1;
                    end if;
-                   segnale_read <= '1';
-                   segnale_write <= '0';
-               else
-                   segnale_write <= '1';
-                   segnale_read <= '0';
                end if;
             end if;
         end if;

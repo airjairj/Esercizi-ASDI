@@ -13,7 +13,7 @@ entity MEM is
 end entity MEM;
 
 architecture MemArch of MEM is
-    signal ind : integer := 0;
+    signal ultimo_indirizzo_scritto : std_logic_vector(3 downto 0) := "0000";
     type MEMORY_N_4 is array (0 to 15) of std_logic_vector(3 downto 0);
     signal MEMO : MEMORY_N_4;
 
@@ -21,11 +21,10 @@ architecture MemArch of MEM is
         process (CLK,s_write)
             begin
                 if (rising_edge(CLK) and s_write = '1') then
-                    MEMO(ind) <= inp_val;
+                    MEMO(to_integer(unsigned(address))) <= inp_val;
+                    ultimo_indirizzo_scritto <= address;
                 end if;
-           
-            out_val <= MEMO(ind);
-
+                out_val <= MEMO(to_integer(unsigned(ultimo_indirizzo_scritto)));     
 
             end process;
 
