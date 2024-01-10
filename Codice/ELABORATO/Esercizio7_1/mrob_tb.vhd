@@ -11,7 +11,7 @@ architecture behavioural of mrob_tb is
 	  port( clock, reset, start: in std_logic;
 		   X, Y: in std_logic_vector(7 downto 0);		   
 		   --stop: out std_logic;		   
-		   P: out std_logic_vector(15 downto 0);
+		   output_prodotto: out std_logic_vector(15 downto 0);
 		   stop_cu: out std_logic);
 	end component;
 	signal inputx, inputy: std_logic_vector(7 downto 0);

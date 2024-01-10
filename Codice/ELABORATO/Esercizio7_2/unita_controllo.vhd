@@ -31,7 +31,14 @@ architecture structural of unita_controllo is
 			  end process;
 			  
 	comb: process(current_state, start, count)
-		  begin		  
+		  begin
+		  
+		  -- Attenzione! questo process si attiva ogni volta che c'? una variazione nei segnali della sensitivity list
+		  -- current_state e count per loro natura variano sempre in corrispodenza del fronte di salita del clock
+		  -- start viene dall'esterno: se non varia (sale e scende) col fronte del clock, si potrebbe avere una situazione
+		  -- in cui il next_state varia ma non ha modo da stabilizzarsi (perch? current_state non ? ancora variato)
+		  -- quando il moltiplicatore sar? messo su board, START dovr? essere generato come uscita del button debouncer
+		  
 		count_in <='0'; 
 		subtract <='0';
 		selAQ <= '0';

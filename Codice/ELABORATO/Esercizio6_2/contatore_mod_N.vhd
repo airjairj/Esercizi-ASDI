@@ -16,7 +16,7 @@ end MOD_N_COUNTER;
 architecture Behavioral of MOD_N_COUNTER is
     signal counter_up : integer := 0;
 begin
-    process(clk,enable,reset)
+    process(clk)
     begin
         if rising_edge(clk) then
             if reset = '1' then

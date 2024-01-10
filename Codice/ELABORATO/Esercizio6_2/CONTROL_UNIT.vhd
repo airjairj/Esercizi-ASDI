@@ -6,9 +6,11 @@ entity CONTROL_UNIT is
     port
     (
         i : in std_logic;
-        a : in std_logic;
+        clock : in std_logic;
         RST_tot : in STD_LOGIC;
-        y_tot : out STD_LOGIC_VECTOR (0 to 3)
+        y_tot : out STD_LOGIC_VECTOR (0 to 3);
+        b_read: in STD_LOGIC;
+        b_write: in STD_LOGIC
     );
 end CONTROL_UNIT;
 
@@ -17,18 +19,20 @@ architecture CONTROL_UNITArch of CONTROL_UNIT is
 	signal intermedio_M_MEM : STD_LOGIC_VECTOR (0 to 3);
 	signal intermedio_UNO_COUNTER: STD_LOGIC := '0';
     signal o_contatore: STD_LOGIC_VECTOR (3 downto 0);
+    
     signal intermedio_READ: STD_LOGIC := '0';
     signal intermedio_WRITE: STD_LOGIC := '0';
     signal temp_READ: STD_LOGIC := '0';
     signal temp_WRITE: STD_LOGIC := '0';
     
+    signal bottone_read: STD_LOGIC := '0';
+    signal bottone_write: STD_LOGIC := '0';
+    
     type stato is (READING, WRITING, PAUSA); 
     signal stato_attuale : stato := PAUSA;
     signal stato_prossimo : stato;
     signal o_temp : std_logic;
-    
-    signal i_pulito : std_logic;
-    
+        
     component M
         port(	
                 a_M : in STD_LOGIC_VECTOR (0 to 7);
@@ -84,7 +88,7 @@ architecture CONTROL_UNITArch of CONTROL_UNIT is
                         N => 16
             )
             Port map(	
-                        clk => a,
+                        clk => clock,
                         reset => RST_tot,
                         enable => intermedio_WRITE,
                         counter => o_contatore
@@ -92,7 +96,7 @@ architecture CONTROL_UNITArch of CONTROL_UNIT is
 
 		ROM0: ROM 
 			Port map(	
-                        CLK => a,
+                        CLK => clock,
                         s_read => intermedio_READ,
                         address => o_contatore, 
 						out_rom => intermedio_ROM_M
@@ -106,25 +110,39 @@ architecture CONTROL_UNITArch of CONTROL_UNIT is
         
         MEM0: MEM
             Port map(	
-                        CLK => a,
+                        CLK => clock,
                         address => o_contatore,
                         s_write => intermedio_WRITE,
                         out_val => y_tot,
                         inp_val => intermedio_M_MEM
                 );
-        de_B: ButtonDebouncer
+                
+        Btn_read: ButtonDebouncer
             Generic map ( 
                 CLK_period => 10,  -- Period of the board's clock in 10ns
                 btn_noise_time => 10000000 -- Estimated button bounce duration of 10ms
             )
             Port map (
                 RST => rst_tot,
-                CLK => a,
-                BTN => i,
-                CLEARED_BTN => i_pulito
+                CLK => clock,
+                BTN => b_read,
+                CLEARED_BTN => bottone_read
+            );    
+
+        Btn_wirte: ButtonDebouncer
+            Generic map ( 
+                CLK_period => 10,  -- Period of the board's clock in 10ns
+                btn_noise_time => 10000000 -- Estimated button bounce duration of 10ms
+            )
+            Port map (
+                RST => rst_tot,
+                CLK => clock,
+                BTN => b_write,
+                CLEARED_BTN => bottone_write
             );
 
-    f_stato_uscita: process(a)
+
+    f_stato_uscita: process(clock)
     begin
         if (RST_tot = '1') then
             stato_prossimo <= PAUSA;
@@ -132,44 +150,62 @@ architecture CONTROL_UNITArch of CONTROL_UNIT is
             
             case stato_attuale is 
             when PAUSA =>
-                if (i = '1') then
+                if (i = '0') then
                     stato_prossimo <= PAUSA;
                     temp_READ <= '0';
                     temp_WRITE <= '0';
-                else -- i = 0
-                    stato_prossimo <= READING;
-                    temp_READ <= '1';
-                    temp_WRITE <= '0';
+                else       
+                    if bottone_read = '1' then
+                        stato_prossimo <= READING;
+                        temp_READ <= '1';
+                        temp_WRITE <= '0';
+                    elsif bottone_write = '1' then
+                        stato_prossimo <= WRITING;
+                        temp_READ <= '0';
+                        temp_WRITE <= '1';
+                    end if;
                 end if;
 
-                when READING =>
-                if (i = '1') then
+            when READING =>
+                if (i = '0') then
                     stato_prossimo <= PAUSA;
                     temp_READ <= '0';
                     temp_WRITE <= '0';
-                else -- i = 0
-                    stato_prossimo <= WRITING;
-                    temp_READ <= '0';
-                    temp_WRITE <= '1';
+                else             
+                    if bottone_read = '1' then
+                        stato_prossimo <= READING;
+                        temp_READ <= '1';
+                        temp_WRITE <= '0';
+                    elsif bottone_write = '1' then
+                        stato_prossimo <= WRITING;
+                        temp_READ <= '0';
+                        temp_WRITE <= '1';
+                    end if;
                 end if;
 
-                when WRITING =>
-                if (i = '1') then
-                    stato_prossimo <= PAUSA;
+            when WRITING =>
+                if (i = '0') then
+                    stato_prossimo <= READING;
                     temp_READ <= '0';
                     temp_WRITE <= '0';
-                else -- i = 0
-                    stato_prossimo <= READING;
-                    temp_READ <= '1';
-                    temp_WRITE <= '0';
+                else
+                    if bottone_read = '1' then
+                        stato_prossimo <= READING;
+                        temp_READ <= '1';
+                        temp_WRITE <= '0';
+                    elsif bottone_write = '1' then
+                        stato_prossimo <= WRITING;
+                        temp_READ <= '0';
+                        temp_WRITE <= '1';
+                    end if;
                 end if;
             end case;
         end if;
     end process;
 
-    cambio_stato: process (a)
+    cambio_stato: process (clock)
     begin
-        if (rising_edge(a) and a = '1') then
+        if (rising_edge(clock)) then
             stato_attuale <= stato_prossimo;
             intermedio_READ <= temp_READ;
             intermedio_WRITE <= temp_WRITE;
